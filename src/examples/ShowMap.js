@@ -14,7 +14,7 @@ import BaseExamplePropTypes from './common/BaseExamplePropTypes';
 import TabBarPage from './common/TabBarPage';
 //
 //
-// // eslint-disable-next-line react/prop-types
+// eslint-disable-next-line react/prop-types
 const AnnotationContent = ({title}) => (
   <View style={{borderColor: 'white', borderWidth: 1.0, width: 60}}>
     <Text>{title}</Text>
@@ -83,7 +83,6 @@ class ShowMap extends React.Component {
       featureCollection: featureCollection([]),
       coordinates: [[-73.99155, 40.73581], [-73.99155, 40.73681]],
       showUserLocation: true,
-      // userSelectedUserTrackingMode: this._trackingOptions[3].data,
       currentTrackingMode: MapboxGL.UserTrackingModes.FollowWithCourse,
       showsUserHeadingIndicator: true,
     };
@@ -93,9 +92,6 @@ class ShowMap extends React.Component {
     this.onPress = this.onPress.bind(this);
     this.onSourceLayerPress = this.onSourceLayerPress.bind(this);
     this.onTrackingChange = this.onTrackingChange.bind(this);
-    // this.onUserTrackingModeChange = this.onUserTrackingModeChange.bind(this);
-    // this.onToggleUserLocation = this.onToggleUserLocation.bind(this);
-    // this.onToggleHeadingIndicator = this.onToggleHeadingIndicator.bind(this);
   }
 
 
@@ -134,7 +130,6 @@ class ShowMap extends React.Component {
 
   componentDidMount() {
     MapboxGL.locationManager.start();
-    // findCoordinates();
   }
 
   componentWillUnmount() {
@@ -155,21 +150,6 @@ class ShowMap extends React.Component {
       currentTrackingMode: userTrackingMode,
     });
   }
-
-  // onUserTrackingModeChange(e) {
-  //   const {followUserMode} = e.nativeEvent.payload;
-  //   this.setState({currentTrackingMode: followUserMode || 'none'});
-  // }
-
-  // onToggleUserLocation() {
-  //   this.setState({showUserLocation: !this.state.showUserLocation});
-  // }
-
-  // onToggleHeadingIndicator() {
-  //   this.setState({
-  //     showsUserHeadingIndicator: !this.state.showsUserHeadingIndicator,
-  //   });
-  // }
 
   get userTrackingModeText() {
     switch (this.state.currentTrackingMode) {
@@ -233,70 +213,6 @@ class ShowMap extends React.Component {
           </MapboxGL.ShapeSource>
         </MapboxGL.MapView>
       </TabBarPage>
-        // <Bubble onPress={this.onToggleUserLocation} style={{bottom: 150}}>
-        //   <Text>
-        //     Toggle User Location:{' '}
-        //     {this.state.showUserLocation ? 'true' : 'false'}
-        //   </Text>
-        // </Bubble>
-
-        // <Bubble onPress={this.onToggleHeadingIndicator} style={{bottom: 220}}>
-        //   <Text>
-        //     Toggle user heading indicator:{' '}
-        //     {this.state.showsUserHeadingIndicator ? 'true' : 'false'}
-        //   </Text>
-        // </Bubble>
-
-        // <MapboxGL.Camera
-        //   zoomLevel={9}
-        //   centerCoordinate={[-73.970895, 40.723279]}
-        //   followUserLocation={true}
-        //   followUserMode=
-        // />
-        // <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
-          // <MapboxGL.PointAnnotation
-          //   coordinate={this.state.coordinates[1]}
-          //   id="pt-ann">
-          //   <AnnotationContent title={'this is a point annotation'} />
-          // </MapboxGL.PointAnnotation>
-
-          // <MapboxGL.MarkerView coordinate={this.state.coordinates[0]}>
-          //   <AnnotationContent title={'this is a marker view'} />
-          // </MapboxGL.MarkerView>
-
-// <MapboxGL.Images images={images} />
-          // <MapboxGL.PointAnnotation
-          //   coordinate={this.state.coordinates[1]}
-          //   id="pt-ann">
-          //   <AnnotationContent title={'this is a point annotation'} />
-          // </MapboxGL.PointAnnotation>
-          //
-          // <MapboxGL.MarkerView coordinate={this.state.coordinates[0]}>
-          //   <AnnotationContent title={'this is a marker view'} />
-          // </MapboxGL.MarkerView>
-        // </MapboxGL.MapView>
-        // </MapboxGL.MapView>
-
-        // <MapboxGL.MapView
-        //   ref={c => (this._map = c)}
-        //   onPress={this.onPress}
-        //   onDidFinishLoadingMap={this.onDidFinishLoadingMap}
-        //   styleURL={this.state.styleURL}
-        //   style={sheet.matchParent}>
-        //   <MapboxGL.Camera
-        //     zoomLevel={16}
-        //     centerCoordinate={this.state.coordinates[0]}
-        //     followZoomLevel={16}
-        //     followUserLocation
-        //   />
-        //   <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
-
-        //
-        // <Bubble>
-        //   <Text>Click to add a point annotation</Text>
-        // </Bubble>
-      // </TabBarPage>
-
     );
   }
 }
