@@ -138,19 +138,6 @@ class ShowMap extends React.Component {
     });
   }
 
-  get userTrackingModeText() {
-    switch (this.state.currentTrackingMode) {
-      case MapboxGL.UserTrackingModes.Follow:
-        return 'Follow';
-      case MapboxGL.UserTrackingModes.FollowWithCourse:
-        return 'FollowWithCourse';
-      case MapboxGL.UserTrackingModes.FollowWithHeading:
-        return 'FollowWithHeading';
-      default:
-        return 'None';
-    }
-  }
-
 
   render() {
     return (
