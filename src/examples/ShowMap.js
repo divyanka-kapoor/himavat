@@ -86,7 +86,6 @@ class ShowMap extends React.Component {
       currentTrackingMode: MapboxGL.UserTrackingModes.FollowWithCourse,
       showsUserHeadingIndicator: true,
     };
-    this.findCoordinates = this.findCoordinates.bind(this);
     this.onMapChange = this.onMapChange.bind(this);
     this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
     this.onPress = this.onPress.bind(this);
@@ -115,18 +114,6 @@ class ShowMap extends React.Component {
       point,
     );
   }
-
-  findCoordinates() {
-		navigator.geolocation.getCurrentPosition(
-			position => {
-				const location = JSON.stringify(position);
-        console.log(location);
-				this.setState({ location });
-			},
-			error => Alert.alert(error.message),
-			{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-		);
-	};
 
   componentDidMount() {
     MapboxGL.locationManager.start();
