@@ -45,7 +45,12 @@ const styles = {
   },
 };
 
-//
+const waste = [
+ "paper",
+ "plastic",
+ "food"
+];
+
 class ShowMap extends React.Component {
   static propTypes = {
     ...BaseExamplePropTypes,
@@ -62,6 +67,13 @@ class ShowMap extends React.Component {
         };
       })
       .sort(onSortOptions);
+
+      this._wasteOptions = waste.map(key =>
+        { return {
+          label: key
+        };
+      });
+
 
       this._trackingOptions = Object.keys(MapboxGL.UserTrackingModes)
       .map(key => {
@@ -87,10 +99,9 @@ class ShowMap extends React.Component {
       showsUserHeadingIndicator: true,
     };
     this.onMapChange = this.onMapChange.bind(this);
-    this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
     this.onPress = this.onPress.bind(this);
-    this.onSourceLayerPress = this.onSourceLayerPress.bind(this);
     this.onTrackingChange = this.onTrackingChange.bind(this);
+    this.dropWaste = this.dropWaste.bind(this);
   }
 
 
@@ -104,16 +115,9 @@ class ShowMap extends React.Component {
         aFeature,
       ]),
     });
+    console.log(this.state.featureCollection);
   }
 
-  onSourceLayerPress({features, coordinates, point}) {
-    console.log(
-      'You pressed a layer here are your features:',
-      features,
-      coordinates,
-      point,
-    );
-  }
 
   componentDidMount() {
     MapboxGL.locationManager.start();
@@ -127,10 +131,6 @@ class ShowMap extends React.Component {
     this.setState({styleURL});
   }
 
-  onUserMarkerPress() {
-    Alert.alert('You pressed on the user location annotation');
-  }
-
   onTrackingChange(index, userTrackingMode) {
     this.setState({
       userSelectedUserTrackingMode: userTrackingMode,
@@ -138,6 +138,18 @@ class ShowMap extends React.Component {
     });
   }
 
+  dropWaste(){
+    const aFeature = feature(e.geometry);
+    aFeature.id = `${Date.now()}`;
+
+    this.setState({
+      featureCollection: featureCollection([
+        ...this.state.featureCollection.features,
+        aFeature,
+      ]),
+    });
+    console.log(this.state.featureCollection);
+  }
 
   render() {
     return (
@@ -145,9 +157,8 @@ class ShowMap extends React.Component {
         {...this.props}
         scrollable
         initialIndex={3}
-        options={this._trackingOptions}
-
-        onOptionPress={this.onTrackingChange}>
+        options={this._wasteOptions}
+        onOptionPress={this.dropWaste}>
         <MapboxGL.MapView
           styleURL={this.state.styleURL}
           style={sheet.matchParent}
@@ -157,13 +168,11 @@ class ShowMap extends React.Component {
           onRegionChange={this.onRegionChange}>
           <MapboxGL.UserLocation
            visible={this.state.showUserLocation}
-
-           useNativeDriver={true}
-         />
+           useNativeDriver={true}/>
          <MapboxGL.Camera
-          defaultSettings={{
-            centerCoordinate: [-111.8678, 40.2866],
-            zoomLevel: 15,
+            defaultSettings={{
+              centerCoordinate: [-111.8678, 40.2866],
+              zoomLevel: 15,
           }}
           followUserLocation={
             this.state.userSelectedUserTrackingMode !== 'none'
@@ -172,14 +181,12 @@ class ShowMap extends React.Component {
             this.state.userSelectedUserTrackingMode !== 'none'
               ? this.state.userSelectedUserTrackingMode
               : 'normal'
-          }
-
-        />
+          }/>
           <MapboxGL.ShapeSource
-          id="symbolLocationSource"
-          hitbox={{width: 20, height: 20}}
-          onPress={this.onSourceLayerPress}
-          shape={this.state.featureCollection}>
+            id="symbolLocationSource"
+            hitbox={{width: 20, height: 20}}
+
+            shape={this.state.featureCollection}>
           <MapboxGL.SymbolLayer
             id="symbolLocationSymbols"
             minZoomLevel={10}
