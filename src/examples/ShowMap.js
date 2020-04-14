@@ -83,9 +83,9 @@ class ShowMap extends React.Component {
       featureCollection: featureCollection([]),
       coordinates: [[-73.99155, 40.73581], [-73.99155, 40.73681]],
       showUserLocation: true,
-      userSelectedUserTrackingMode: this._trackingOptions[3].data,
-      currentTrackingMode: this._trackingOptions[3].data,
-      showsUserHeadingIndicator: false,
+      // userSelectedUserTrackingMode: this._trackingOptions[3].data,
+      currentTrackingMode: MapboxGL.UserTrackingModes.FollowWithCourse,
+      showsUserHeadingIndicator: true,
     };
     this.findCoordinates = this.findCoordinates.bind(this);
     this.onMapChange = this.onMapChange.bind(this);
@@ -93,9 +93,9 @@ class ShowMap extends React.Component {
     this.onPress = this.onPress.bind(this);
     this.onSourceLayerPress = this.onSourceLayerPress.bind(this);
     this.onTrackingChange = this.onTrackingChange.bind(this);
-    this.onUserTrackingModeChange = this.onUserTrackingModeChange.bind(this);
-    this.onToggleUserLocation = this.onToggleUserLocation.bind(this);
-    this.onToggleHeadingIndicator = this.onToggleHeadingIndicator.bind(this);
+    // this.onUserTrackingModeChange = this.onUserTrackingModeChange.bind(this);
+    // this.onToggleUserLocation = this.onToggleUserLocation.bind(this);
+    // this.onToggleHeadingIndicator = this.onToggleHeadingIndicator.bind(this);
   }
 
 
@@ -156,20 +156,20 @@ class ShowMap extends React.Component {
     });
   }
 
-  onUserTrackingModeChange(e) {
-    const {followUserMode} = e.nativeEvent.payload;
-    this.setState({currentTrackingMode: followUserMode || 'none'});
-  }
+  // onUserTrackingModeChange(e) {
+  //   const {followUserMode} = e.nativeEvent.payload;
+  //   this.setState({currentTrackingMode: followUserMode || 'none'});
+  // }
 
-  onToggleUserLocation() {
-    this.setState({showUserLocation: !this.state.showUserLocation});
-  }
+  // onToggleUserLocation() {
+  //   this.setState({showUserLocation: !this.state.showUserLocation});
+  // }
 
-  onToggleHeadingIndicator() {
-    this.setState({
-      showsUserHeadingIndicator: !this.state.showsUserHeadingIndicator,
-    });
-  }
+  // onToggleHeadingIndicator() {
+  //   this.setState({
+  //     showsUserHeadingIndicator: !this.state.showsUserHeadingIndicator,
+  //   });
+  // }
 
   get userTrackingModeText() {
     switch (this.state.currentTrackingMode) {
@@ -203,12 +203,13 @@ class ShowMap extends React.Component {
           onRegionChange={this.onRegionChange}>
           <MapboxGL.UserLocation
            visible={this.state.showUserLocation}
-           showsUserHeadingIndicator={this.state.showsUserHeadingIndicator}
+
+           useNativeDriver={true}
          />
          <MapboxGL.Camera
           defaultSettings={{
             centerCoordinate: [-111.8678, 40.2866],
-            zoomLevel: 0,
+            zoomLevel: 15,
           }}
           followUserLocation={
             this.state.userSelectedUserTrackingMode !== 'none'
@@ -218,39 +219,34 @@ class ShowMap extends React.Component {
               ? this.state.userSelectedUserTrackingMode
               : 'normal'
           }
-          onUserTrackingModeChange={this.onUserTrackingModeChange}
+
         />
-
           <MapboxGL.ShapeSource
-            id="symbolLocationSource"
-            hitbox={{width: 20, height: 20}}
-            onPress={this.onSourceLayerPress}
-            shape={this.state.featureCollection}>
-            <MapboxGL.SymbolLayer
-              id="symbolLocationSymbols"
-              minZoomLevel={1}
-              style={styles.icon}
-            />
+          id="symbolLocationSource"
+          hitbox={{width: 20, height: 20}}
+          onPress={this.onSourceLayerPress}
+          shape={this.state.featureCollection}>
+          <MapboxGL.SymbolLayer
+            id="symbolLocationSymbols"
+            minZoomLevel={10}
+            style={styles.icon}/>
           </MapboxGL.ShapeSource>
-          </MapboxGL.MapView>
-          <Bubble style={{bottom: 80}}>
-          <Text>User Tracking Mode: {this.userTrackingModeText}</Text>
-        </Bubble>
+        </MapboxGL.MapView>
+      </TabBarPage>
+        // <Bubble onPress={this.onToggleUserLocation} style={{bottom: 150}}>
+        //   <Text>
+        //     Toggle User Location:{' '}
+        //     {this.state.showUserLocation ? 'true' : 'false'}
+        //   </Text>
+        // </Bubble>
 
-        <Bubble onPress={this.onToggleUserLocation} style={{bottom: 150}}>
-          <Text>
-            Toggle User Location:{' '}
-            {this.state.showUserLocation ? 'true' : 'false'}
-          </Text>
-        </Bubble>
+        // <Bubble onPress={this.onToggleHeadingIndicator} style={{bottom: 220}}>
+        //   <Text>
+        //     Toggle user heading indicator:{' '}
+        //     {this.state.showsUserHeadingIndicator ? 'true' : 'false'}
+        //   </Text>
+        // </Bubble>
 
-        <Bubble onPress={this.onToggleHeadingIndicator} style={{bottom: 220}}>
-          <Text>
-            Toggle user heading indicator:{' '}
-            {this.state.showsUserHeadingIndicator ? 'true' : 'false'}
-          </Text>
-        </Bubble>
-        </TabBarPage>
         // <MapboxGL.Camera
         //   zoomLevel={9}
         //   centerCoordinate={[-73.970895, 40.723279]}
