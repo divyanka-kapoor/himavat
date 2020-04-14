@@ -90,7 +90,7 @@ class RouteSimulator {
       this._anim = Animated.timing(this._animatedValue, {
         toValue: this._currentDistance,
         duration: 5,
-        useNativeDriver: false,
+        useNativeDriver: true,
       });
 
       this._anim.start(() => {
