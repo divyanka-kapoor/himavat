@@ -1,0 +1,105 @@
+platform :ios, '13.3'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+target 'RNMapboxGLExample' do
+  pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
+  pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
+  pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
+  pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
+  pod 'React', :path => '../node_modules/react-native/'
+  pod 'React-Core', :path => '../node_modules/react-native/'
+  pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
+  pod 'React-Core/DevSupport', :path => '../node_modules/react-native/'
+  pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
+  pod 'React-RCTAnimation', :path => '../node_modules/react-native/Libraries/NativeAnimation'
+  pod 'React-RCTBlob', :path => '../node_modules/react-native/Libraries/Blob'
+  pod 'React-RCTImage', :path => '../node_modules/react-native/Libraries/Image'
+  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+  pod 'React-RCTNetwork', :path => '../node_modules/react-native/Libraries/Network'
+  pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
+  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
+  pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
+  pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
+
+  pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
+  pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
+  pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
+  pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
+  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
+  pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
+
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
+  target 'RNMapboxGLExampleTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  pod 'NoUseFrameworks-MapboxMobileEvents',  :podspec => '../node_modules/@react-native-mapbox-gl/maps/ios/NoUseFrameworks-MapboxMobileEvents/NoUseFrameworks-MapboxMobileEvents.podspec.json'
+  # use_frameworks!
+
+  use_native_modules!
+end
+
+post_install do |installer|
+    applicationTargets = [
+        'Pods-SampleApp',
+    ]
+    libraryTargets = [
+        'Pods-SampleLib',
+    ]
+
+    embedded_targets = installer.aggregate_targets.select { |aggregate_target|
+        libraryTargets.include? aggregate_target.name
+    }
+    embedded_pod_targets = embedded_targets.flat_map { |embedded_target| embedded_target.pod_targets }
+    host_targets = installer.aggregate_targets.select { |aggregate_target|
+        applicationTargets.include? aggregate_target.name
+    }
+
+    # We only want to remove pods from Application targets, not libraries
+    host_targets.each do |host_target|
+        host_target.xcconfigs.each do |config_name, config_file|
+            host_target.pod_targets.each do |pod_target|
+                if embedded_pod_targets.include? pod_target
+                    pod_target.specs.each do |spec|
+                        if spec.attributes_hash['ios'] != nil
+                            frameworkPaths = spec.attributes_hash['ios']['vendored_frameworks']
+                            else
+                            frameworkPaths = spec.attributes_hash['vendored_frameworks']
+                        end
+                        if frameworkPaths != nil
+                            frameworkNames = Array(frameworkPaths).map(&:to_s).map do |filename|
+                                extension = File.extname filename
+                                File.basename filename, extension
+                            end
+                            frameworkNames.each do |name|
+                                puts "Removing #{name} from OTHER_LDFLAGS of target #{host_target.name}"
+                                config_file.frameworks.delete(name)
+                            end
+                        end
+                    end
+                end
+            end
+            xcconfig_path = host_target.xcconfig_path(config_name)
+            config_file.save_as(xcconfig_path)
+        end
+    end
+end
+
+target 'RNMapboxGLExample-tvOS' do
+  # Pods for RNMapboxGLExample-tvOS
+
+  target 'RNMapboxGLExample-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

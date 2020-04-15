@@ -389,6 +389,20 @@ SPEC CHECKSUMS:
   Mapbox-iOS-SDK: 1b7cb0e739247d20ef75f5f14aa6ce34e1f0660f
   MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   NoUseFrameworks-MapboxMobileEvents: 9f38e28109d86a738b88f8f946ebc1441a3a78ac
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  RCTRequired: 53825815218847d3e9c7b6d92ad2d197a926d51e
+  RCTTypeSafety: d886540c518e53064dfa081bf7693fd650699b92
+  React: 5dea58967c421bd1fdf6b94c18b9ed0f5134683c
+  React-Core: b381e65aa0da9b94b9dcdc4a99298075b1c3876c
+  React-CoreModules: 4ed224e29848ba76d26aacb8e3fe85712d3c4fe1
+  React-cxxreact: 52c98f5c1fb4e4d9f4b588742718350a55f4f088
+  React-jsi: 61ff417c95e6c3af50fb96399037e80752fb5ce7
+  React-jsiexecutor: ee45274419eb95614bbbadb98e20684c5f29996e
+  React-jsinspector: 574d597112f9ea3d1b717f6fb62aef764c70dd6f
+=======
+>>>>>>> master
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce
   React: 29a8b1a02bd764fb7644ef04019270849b9a7ac3
@@ -399,6 +413,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
+<<<<<<< HEAD
+=======
+>>>>>>> da17037... Podfile changes to be installed.
+>>>>>>> master
   react-native-mapbox-gl: c740c0e97fe18f8280433bfabaa6a9d1f751b79f
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
@@ -418,6 +436,14 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
+<<<<<<< HEAD
 PODFILE CHECKSUM: 0a7a6fdb274df07e77bab8f2e3c7855d73f2ec6b
+=======
+<<<<<<< HEAD
+PODFILE CHECKSUM: 447321b457e2b9f08902b379d768c0b7635a0081
+=======
+PODFILE CHECKSUM: 0a7a6fdb274df07e77bab8f2e3c7855d73f2ec6b
+>>>>>>> da17037... Podfile changes to be installed.
+>>>>>>> master
 
 COCOAPODS: 1.9.1
