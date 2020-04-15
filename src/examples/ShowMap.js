@@ -12,31 +12,11 @@ import Page from './common/Page';
 import Bubble from './common/Bubble';
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';
 import TabBarPage from './common/TabBarPage';
+import Geolocation from '@react-native-community/geolocation';
+
 //
 //
 // eslint-disable-next-line react/prop-types
-const AnnotationContent = ({title}) => (
-  <View style={{borderColor: 'white', borderWidth: 1.0, width: 60}}>
-    <Text>{title}</Text>
-    <TouchableOpacity
-      style={{
-        backgroundColor: 'green',
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <Text
-        style={{
-          color: 'white',
-          fontWeight: 'bold',
-        }}>
-        Btn
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
 
 const styles = {
   icon: {
@@ -44,12 +24,6 @@ const styles = {
     iconAllowOverlap: true,
   },
 };
-
-const waste = [
- "paper",
- "plastic",
- "food"
-];
 
 class ShowMap extends React.Component {
   static propTypes = {
@@ -68,12 +42,12 @@ class ShowMap extends React.Component {
       })
       .sort(onSortOptions);
 
-      this._wasteOptions = waste.map(key =>
-        { return {
-          label: key
-        };
-      });
-
+      this._wasteOptions = [
+        {label: 'Paper', data: 'paper'},
+        {label: 'Plastic', data: 'plastic'},
+        {label: 'Food', data: 'food'},
+        {label: 'Misc', data: 'misc'}
+      ];
 
       this._trackingOptions = Object.keys(MapboxGL.UserTrackingModes)
       .map(key => {
@@ -93,29 +67,14 @@ class ShowMap extends React.Component {
     this.state = {
       styleURL: this._mapOptions[0].data,
       featureCollection: featureCollection([]),
-      coordinates: [[-73.99155, 40.73581], [-73.99155, 40.73681]],
-      showUserLocation: true,
       currentTrackingMode: MapboxGL.UserTrackingModes.FollowWithCourse,
-      showsUserHeadingIndicator: true,
+      wasteOption:'',
+      regionFeature: undefined,
     };
+
     this.onMapChange = this.onMapChange.bind(this);
-    this.onPress = this.onPress.bind(this);
-    this.onTrackingChange = this.onTrackingChange.bind(this);
     this.dropWaste = this.dropWaste.bind(this);
-  }
-
-
-  async onPress(e) {
-    const aFeature = feature(e.geometry);
-    aFeature.id = `${Date.now()}`;
-
-    this.setState({
-      featureCollection: featureCollection([
-        ...this.state.featureCollection.features,
-        aFeature,
-      ]),
-    });
-    console.log(this.state.featureCollection);
+    this.onUpdateUserLocation = this.onUpdateUserLocation.bind(this);
   }
 
 
@@ -131,24 +90,12 @@ class ShowMap extends React.Component {
     this.setState({styleURL});
   }
 
-  onTrackingChange(index, userTrackingMode) {
-    this.setState({
-      userSelectedUserTrackingMode: userTrackingMode,
-      currentTrackingMode: userTrackingMode,
-    });
+  dropWaste(e,waste){
+    Geolocation.getCurrentPosition(info => console.log(info));
   }
 
-  dropWaste(){
-    const aFeature = feature(e.geometry);
-    aFeature.id = `${Date.now()}`;
-
-    this.setState({
-      featureCollection: featureCollection([
-        ...this.state.featureCollection.features,
-        aFeature,
-      ]),
-    });
-    console.log(this.state.featureCollection);
+  onUpdateUserLocation(location){
+    console.log(location);
   }
 
   render() {
@@ -163,29 +110,23 @@ class ShowMap extends React.Component {
           styleURL={this.state.styleURL}
           style={sheet.matchParent}
           logoEnabled={false}
-          onPress={this.onPress}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}>
+          showUserLocation={true}
+          onRegionChange={this.onRegionChange}
+          onUpdateUserLocation={this.onUpdateUserLocation}>
           <MapboxGL.UserLocation
-           visible={this.state.showUserLocation}
+           visible={true}
            useNativeDriver={true}/>
          <MapboxGL.Camera
-            defaultSettings={{
-              centerCoordinate: [-111.8678, 40.2866],
-              zoomLevel: 15,
-          }}
-          followUserLocation={
-            this.state.userSelectedUserTrackingMode !== 'none'
-          }
-          followUserMode={
-            this.state.userSelectedUserTrackingMode !== 'none'
-              ? this.state.userSelectedUserTrackingMode
-              : 'normal'
-          }/>
+            defaultSettings={
+              {
+                zoomLevel: 15,
+              }
+            }
+          followUserLocation={true}/>
           <MapboxGL.ShapeSource
             id="symbolLocationSource"
             hitbox={{width: 20, height: 20}}
-
             shape={this.state.featureCollection}>
           <MapboxGL.SymbolLayer
             id="symbolLocationSymbols"
