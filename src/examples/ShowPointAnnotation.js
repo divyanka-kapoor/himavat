@@ -91,7 +91,7 @@ class ShowPointAnnotation extends React.Component {
     }
 
     this._scaleIn = new Animated.Value(0.6);
-    Animated.timing(this._scaleIn, {toValue: 1.0, duration: 200}).start();
+    Animated.timing(this._scaleIn, {toValue: 1.0, duration: 200, useNativeDriver: true,}).start();
     this.setState({activeAnnotationIndex: activeIndex});
 
     if (this.state.previousActiveAnnotationIndex !== -1) {
@@ -107,7 +107,7 @@ class ShowPointAnnotation extends React.Component {
     }
 
     this._scaleOut = new Animated.Value(1);
-    Animated.timing(this._scaleOut, {toValue: 0.6, duration: 200}).start();
+    Animated.timing(this._scaleOut, {toValue: 0.6, duration: 200, useNativeDriver: true,}).start();
     nextState.previousActiveAnnotationIndex = deselectedIndex;
     this.setState(nextState);
   }
