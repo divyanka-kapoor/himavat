@@ -36,13 +36,14 @@ class CustomIcon extends React.Component {
   async onPress(e) {
     const aFeature = feature(e.geometry);
     aFeature.id = `${Date.now()}`;
-
+    console.log(aFeature);  
     this.setState({
       featureCollection: featureCollection([
         ...this.state.featureCollection.features,
         aFeature,
       ]),
     });
+
   }
 
   onSourceLayerPress({features, coordinates, point}) {

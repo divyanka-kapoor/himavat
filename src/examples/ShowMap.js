@@ -69,7 +69,7 @@ class ShowMap extends React.Component {
       featureCollection: featureCollection([]),
       currentTrackingMode: MapboxGL.UserTrackingModes.FollowWithCourse,
       wasteOption:'',
-      regionFeature: undefined,
+      location: {},
     };
 
     this.onMapChange = this.onMapChange.bind(this);
@@ -90,8 +90,20 @@ class ShowMap extends React.Component {
     this.setState({styleURL});
   }
 
+
   dropWaste(e,waste){
     Geolocation.getCurrentPosition(info => console.log(info));
+    var coords = Geolocation.getCurrentPosition(position => {
+      const location = JSON.stringify(position);
+      this.setState({ location });
+      },
+      error => Alert.alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+    console.log(this.state.location);
+    // var a = {type: 'Point', coordinates: [this.state.location.coords.longitude,this.state.location.coords.latitude]}
+    console.log(coords);
+    // console.log(a);
   }
 
   onUpdateUserLocation(location){
