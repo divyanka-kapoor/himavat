@@ -18,6 +18,11 @@
   "dependencies": {
     "@mapbox/geo-viewport": "^0.4.0",
     "@mapbox/mapbox-sdk": "^0.6.0",
+<<<<<<< HEAD
+=======
+    "@react-native-community/geolocation": "^2.0.2",
+    "@react-native-community/masked-view": "^0.1.8",
+>>>>>>> 15acd4f... Adding geolocation package
     "@react-native-mapbox-gl/maps": "file:../react-native-mapbox-gl-maps.tgz",
     "@turf/along": "^5.1.5",
     "@turf/bbox-polygon": "^6.0.1",
