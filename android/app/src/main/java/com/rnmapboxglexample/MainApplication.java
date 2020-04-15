@@ -4,6 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+<<<<<<< HEAD
+=======
+import com.reactnativecommunity.geolocation.GeolocationPackage;
+import com.mapbox.rctmgl.RCTMGLPackage;
+>>>>>>> 4aa2353... Adding geolocation file
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
