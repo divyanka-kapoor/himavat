@@ -65,7 +65,7 @@ class ShowMap extends React.Component {
       .sort(onSortOptions);
 
     this.state = {
-      styleURL: this._mapOptions[0].data,
+      styleURL: this._mapOptions[1].data,
       featureCollection: featureCollection([]),
       currentTrackingMode: MapboxGL.UserTrackingModes.FollowWithCourse,
       wasteOption:'',
